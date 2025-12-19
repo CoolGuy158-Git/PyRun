@@ -1,5 +1,5 @@
 # PyRun
-A python running game
+A python game where you try and avoid the bugs
 ## Modules:
 - pygame
 - random
