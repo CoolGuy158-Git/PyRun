@@ -187,7 +187,7 @@ while True:
                     with open(highscore_file, "w") as f:
                         f.write(str(highscore))
     else:
-        over_text = font.render("You Died, Press 'R' To Restart", True, (255, 0, 0))
+        over_text = font.render("You Encountered A Bug, Press 'R' To Restart", True, (255, 0, 0))
         screen.blit(over_text, (screen.get_width() // 2 - over_text.get_width() // 2, screen.get_height() // 2))
         highscore_text = sfont.render(f"Highscore: {highscore}", True, (0, 0, 0))
         hs_rect = highscore_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + -55))
