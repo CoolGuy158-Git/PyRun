@@ -4,7 +4,7 @@ import math
 import time
 import os
 from sys import exit
-
+i = True
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("PyRun")
@@ -85,8 +85,8 @@ on_ground = True
 
 # --Spikes--
 spike_img = pygame.image.load("bug.png").convert_alpha()
-spike_width = 90
-spike_height = 50
+spike_width = 50
+spike_height = 45
 spike_img = pygame.transform.scale(spike_img, (spike_width, spike_height))
 spike_bounce_height = 5
 
@@ -153,7 +153,7 @@ while True:
 
         if random.randint(1, 80) == 1:
             new_x = last_spike_x + random.randint(60, 350)
-            spike_y = ground_y - spike_height
+            spike_y = ground_y - spike_height - 10
             new_spike_rect = pygame.Rect(new_x, spike_y, spike_width, spike_height)
             new_spike_rect.inflate_ip(-10, -10)
             phase = random.uniform(0, math.pi * 2)
