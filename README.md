@@ -7,6 +7,7 @@ A python game where you try and avoid the bugs
 - time
 - os
 - sys
-Under MIT license
 
-*** Note: I do not own any of the music or picture ***
+## Under MIT license
+
+**Note: I do not own any of the music or picture**
