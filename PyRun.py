@@ -5,6 +5,7 @@ import time
 import os
 from sys import exit
 i = True
+run_once = True
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("PyRun")
@@ -188,6 +189,11 @@ while True:
                         f.write(str(highscore))
     else:
         over_text = font.render("You Encountered A Bug, Press 'R' To Restart", True, (255, 0, 0))
+        if run_once:
+            print('\033[91m Traceback (most recent call last):')
+            print('\033[91m  File "<stdin>", line 1, in <module>')
+            print('\033[91m  NameError: name "x" is not defined')
+            run_once = False
         screen.blit(over_text, (screen.get_width() // 2 - over_text.get_width() // 2, screen.get_height() // 2))
         highscore_text = sfont.render(f"Highscore: {highscore}", True, (0, 0, 0))
         hs_rect = highscore_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + -55))
