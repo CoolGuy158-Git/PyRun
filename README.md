@@ -7,6 +7,7 @@ A python game where you try and avoid the bugs
 - time
 - os
 - sys
+- ctypes
 
 ## Under MIT license
 
