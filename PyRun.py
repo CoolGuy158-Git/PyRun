@@ -2,10 +2,10 @@ import pygame
 import random
 import math
 import time
+import ctypes
 import os
 from sys import exit
 i = True
-run_once = True
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("PyRun")
@@ -18,8 +18,6 @@ pygame.mixer.init()
 pygame.mixer.music.load("bg_music.mp3")
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
-# --Game Over Effect Source: https://pixabay.com/users/alphix-52619918/ --
-game_over_sfx = pygame.mixer.Sound("gameover.mp3")
 # --Background--
 bg_img = pygame.image.load("bg.png").convert()
 bg_img = pygame.transform.scale(bg_img, (screen.get_width(), screen.get_height()))
@@ -182,29 +180,41 @@ while True:
             if player_rect.colliderect(spike_hitbox):
                 game_over = True
                 pygame.mixer.music.stop()
-                game_over_sfx.play()
                 if score > highscore:
                     highscore = score
-                    with open(highscore_file, "w") as f:
-                        f.write(str(highscore))
+                with open(highscore_file, "w") as f:
+                    f.write(str(highscore))
+                print('\033[91m Traceback (most recent call last):')
+                print('\033[91m  File "<stdin>", line 1, in <module>')
+                print('\033[91m  NameError: name "x" is not defined')
+                print()
+                result = ctypes.windll.user32.MessageBoxW(
+                    0,
+                    f"Press OK to restart\nYour highscore is: {highscore}",
+                    "Error! You Encountered A Bug",
+                    0x10 | 0x1
+                )
+                if result == 1:
+                    game_over = False
+                    player_y = ground_y - player_height
+                    player_vel_y = 0
+                    on_ground = True
+                    spikes.clear()
+                    last_spike_x = screen.get_width() + random.randint(100, 300)
+                    score = 0
+                    last_time = time.time()
+                    pygame.mixer.music.play(-1)
+                elif result == 2:
+                    pygame.quit()
+                    exit()
     else:
-        over_text = font.render("You Encountered A Bug, Press 'R' To Restart", True, (255, 0, 0))
-        if run_once:
-            print('\033[91m Traceback (most recent call last):')
-            print('\033[91m  File "<stdin>", line 1, in <module>')
-            print('\033[91m  NameError: name "x" is not defined')
-            run_once = False
-        screen.blit(over_text, (screen.get_width() // 2 - over_text.get_width() // 2, screen.get_height() // 2))
-        highscore_text = sfont.render(f"Highscore: {highscore}", True, (0, 0, 0))
-        hs_rect = highscore_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 + -55))
-        screen.blit(highscore_text, hs_rect)
-
-    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
-    screen.blit(score_text, (10, 60))
+        pass
 
     fps = int(clock.get_fps())
     fps_text = font.render(f"FPS: {fps}", True, (255, 255, 255))
     screen.blit(fps_text, (10, 10))
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (10, 40))
 
     pygame.display.update()
     clock.tick(60)
